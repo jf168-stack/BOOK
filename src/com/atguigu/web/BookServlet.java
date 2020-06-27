@@ -15,10 +15,10 @@ import java.util.List;
 public class BookServlet extends BaseServlet {
     BookService bookService = new BookServiceImpl();
 
-    @Override
+/*    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
-    }
+    }*/
 
     protected void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int pageNo = WebUtils.parseInt(req.getParameter("pageNo"), 0);
