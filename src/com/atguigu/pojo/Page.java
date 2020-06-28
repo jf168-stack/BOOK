@@ -4,10 +4,11 @@ import java.util.List;
 
 /**
  * Page是分页模型
+ *
  * @param <T>具体的javabean
  */
 public class Page<T> {
-    public static final  Integer PAGE_SIZE = 4;
+    public static final Integer PAGE_SIZE = 4;
     //当前页码
     private Integer pageNo;
     //总页码
@@ -18,6 +19,28 @@ public class Page<T> {
     private Integer pageTotalCount;
     //当前页的数据
     private List<T> items;
+    //保存分页请求地址
+    private String url;
+
+    @Override
+    public String toString() {
+        return "Page{" +
+                "pageNo=" + pageNo +
+                ", pageTotal=" + pageTotal +
+                ", pageSize=" + pageSize +
+                ", pageTotalCount=" + pageTotalCount +
+                ", items=" + items +
+                ", url='" + url + '\'' +
+                '}';
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public Integer getPageNo() {
         return pageNo;
@@ -66,14 +89,4 @@ public class Page<T> {
         this.items = items;
     }
 
-    @Override
-    public String toString() {
-        return "Page{" +
-                "pageNo=" + pageNo +
-                ", pageTotal=" + pageTotal +
-                ", pageSize=" + pageSize +
-                ", pageTotalCount=" + pageTotalCount +
-                ", items=" + items +
-                '}';
-    }
 }
