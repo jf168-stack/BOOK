@@ -40,4 +40,9 @@ public class BookServiceTest {
     public void page() {
         System.out.println(bookService.page(1, 4).toString());
     }
+
+    @Test
+    public void pageByPrice() {
+        System.out.println(bookService.pageByPrice(1, 4,10,50).toString());
+    }
 }
