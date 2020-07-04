@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 public class UserServlet extends BaseServlet {
 
     private UserService userService = new UserServiceImpl();
@@ -38,10 +40,27 @@ public class UserServlet extends BaseServlet {
             req.getRequestDispatcher("/pages/user/login.jsp").forward(req, resp);
         } else {
             // 登录 成功
+            // 保存用户信息到session域中
+            req.getSession().setAttribute("userInfo", loginUser);
             //跳到成功页面login_success.html
             req.getRequestDispatcher("/pages/user/login_success.jsp").forward(req, resp);
         }
 
+    }
+
+    /**
+     * 注销登录
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 删除session
+        req.getSession().invalidate();
+        // 重定向到首页
+        resp.sendRedirect(req.getContextPath());
     }
 
     /**
@@ -53,7 +72,10 @@ public class UserServlet extends BaseServlet {
      * @throws IOException
      */
     protected void regist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        // 获取存储的验证码信息
+        String token = (String) req.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        // 删除保存的session信息
+        req.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
         //  1、获取请求的参数
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -63,7 +85,7 @@ public class UserServlet extends BaseServlet {
         User user = WebUtils.copyParamToBean(req.getParameterMap(), new User());
 
 //        2、检查 验证码是否正确  === 写死,要求验证码为:abcde
-        if ("abcde".equalsIgnoreCase(code)) {
+        if (token != null && token.equalsIgnoreCase(code)) {
 //        3、检查 用户名是否可用
             if (userService.existsUsername(username)) {
                 System.out.println("用户名[" + username + "]已存在!");
