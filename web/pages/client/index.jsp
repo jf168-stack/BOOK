@@ -12,7 +12,6 @@
 		$(function () {
      		$("button.addToCart").click(function () {
      			var id = $(this).attr("bookId");
-     			alert(id)
      			location.href = "cartServlet?action=addItem&id="+id;
 			})
 		});
