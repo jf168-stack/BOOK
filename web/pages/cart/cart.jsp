@@ -29,6 +29,18 @@
                 return confirm("您确定要清空购物车么？");
             });
 
+            //绑定内容修改事件
+            $(".updateCount").change(function () {
+                var name = $(this).parent().parent().find("td:first").text();
+                var count = this.value;
+                var id =$(this).attr("bookId");
+                if(confirm("你确定要修改【"+name+"】数量为"+count+"么？")){
+                    location.href = "cartServlet?action=updateCount&id="+id+"&count="+count;
+                }else {
+                    this.value = this.defaultValue;
+                }
+            })
+
         })
     </script>
 
@@ -54,7 +66,7 @@
             <c:forEach items="${sessionScope.cart.items}" var="entry">
                 <tr>
                     <td>${entry.value.name}</td>
-                    <td>${entry.value.count}</td>
+                    <td><input bookId="${entry.value.id}" style="width: 80px" class="updateCount" type="text" value="${entry.value.count}"></td>
                     <td>${entry.value.price}</td>
                     <td>${entry.value.totalPrice}</td>
                     <td><a class="book_delete" href="cartServlet?action=deleteItem&id=${entry.value.id}">删除</a></td>

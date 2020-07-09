@@ -16,7 +16,30 @@ public class CartServlet extends BaseServlet {
     BookService bookService = new BookServiceImpl();
 
     /**
+     * 修改商品数量
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void updateCount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 获取商品id
+        int id = WebUtils.parseInt(req.getParameter("id"), 0);
+        // 获取修改后的数量
+        int count = WebUtils.parseInt(req.getParameter("count"), 1);
+        // 获取购物车对象
+        Cart cart = (Cart) req.getSession().getAttribute("cart");
+        // 修改商品数量
+        if (cart != null) {
+            cart.updateItem(id, count);
+            resp.sendRedirect(req.getHeader("Referer"));
+        }
+    }
+
+    /**
      * 清空购物车
+     *
      * @param req
      * @param resp
      * @throws ServletException
@@ -24,9 +47,9 @@ public class CartServlet extends BaseServlet {
      */
     protected void clearCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 获取购物车对象
-        Cart  cart = (Cart) req.getSession().getAttribute("cart");
+        Cart cart = (Cart) req.getSession().getAttribute("cart");
         // 清空购物车
-        if (cart!=null){
+        if (cart != null) {
             cart.clearCart();
             resp.sendRedirect(req.getHeader("Referer"));
         }
