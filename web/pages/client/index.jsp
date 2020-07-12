@@ -49,10 +49,18 @@
 				</form>
 			</div>
 			<div style="text-align: center">
-				<span>您的购物车中有3件商品</span>
-				<div>
-					您刚刚将<span style="color: red">时间简史</span>加入到了购物车中
-				</div>
+				<c:if test="${empty sessionScope.cart.items}">
+					<span></span>
+					<div>
+						<span style="color: red">当前购物车为空！快快添加喜爱的书籍吧！</span>
+					</div>
+				</c:if>
+				<c:if test="${not empty sessionScope.cart.items}">
+					<span>您的购物车中有${sessionScope.cart.totalCount}件商品</span>
+					<div>
+						您刚刚将<span style="color: red">${sessionScope.LastName}</span>加入到了购物车中
+					</div>
+				</c:if>
 			</div>
 			<%--遍历图书信息--%>
 			<c:forEach items="${requestScope.page.items}" var="book">

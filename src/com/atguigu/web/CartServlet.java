@@ -98,6 +98,8 @@ public class CartServlet extends BaseServlet {
             req.getSession().setAttribute("cart", cart);
         }
         cart.addItem(cartItem);
+        // 将商品信息保存在session域中，用于在首页的回显
+        req.getSession().setAttribute("LastName", cartItem.getName());
         // 重定向到商品页面
         resp.sendRedirect(req.getHeader("Referer"));
     }
